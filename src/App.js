@@ -7,6 +7,8 @@ import {
 import Landing from './components/Landing/Landing';
 import Results from './components/Results/Results';
 
+import './App.css'
+
 const App = () => {
   const [searchResults, setSearchResults] = useState([]);
 
