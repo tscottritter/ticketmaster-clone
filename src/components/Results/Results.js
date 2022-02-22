@@ -78,7 +78,7 @@ const Results = ({ results, keyword, setKeyword, resultsSearch, showError }) => 
             <img src='./location.png' className='card-img-top' alt=''/>
             <div className='card-body'>
                 <h5 className='card-title'>{venue.name}</h5>
-                <p className='card-text'>{venue.city?.name}, {venue.state?.name}, {venue.country?.name}</p>
+                <p className='card-text'>{venue.city?.name}{`${venue.state ? ', ' + venue.state.name : '' }`}{venue.country && venue.country.name === 'United States Of America' ? '' : ', ' + venue.country.name}</p>
             </div>
             <div className='card-footer'>
                 <button type='button'
@@ -132,7 +132,10 @@ const Results = ({ results, keyword, setKeyword, resultsSearch, showError }) => 
                         <input 
                             id='keywordInput'
                             placeholder='Search...'
-                            value={keyword} onChange={(e) => setKeyword(e.target.value)}>
+                            value={keyword} onChange={(e) => setKeyword(e.target.value)}
+                            onKeyUp={(e) => {
+                                if (e.key === 'Enter') resultsSearch();
+                            }}>
                         </input>
                         <button 
                             type='button'

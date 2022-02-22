@@ -30,6 +30,10 @@
     .card-group .card {
         max-width: 45%;
     }
+
+    #nav-tab {
+        font-size: small;
+    }
 }
 
 @media only screen and (max-width: 580px) {

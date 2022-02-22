@@ -8,10 +8,10 @@ const VenueDetails = ({ details }) => (
             <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
         </div>
         <div className='modal-body'>
-            <iframe title='map' src={`https://www.google.com/maps/embed/v1/place?q=${details.address.line1}${details.city.name}&key=AIzaSyCvKNQ5MCAfP0FCmPl5YRIkdvCWhL8An-k`}/><br></br>
+            <iframe title='map' src={`https://www.google.com/maps/embed/v1/place?q=${details.address?.line1 ?? ''}${details.city.name}&key=AIzaSyCvKNQ5MCAfP0FCmPl5YRIkdvCWhL8An-k`}/><br></br>
             <strong>
-                {details.address.line1}<br></br>
-                {details.city.name}, {details.state?.name}, {details.country.name}<br></br>
+                {details.address.line1 ?? ''}<br></br>
+                {details.city?.name}{`${details.state ? ', ' + details.state.name : '' }`}{details.country && details.country.name === 'United States Of America' ? '' : ', ' + details.country.name}<br></br>
             </strong>
             <p>{ details.description ?? '' }</p>
             <p>{ details.generalInfo?.generalRule ?? '' }</p>
