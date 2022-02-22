@@ -1,29 +1,44 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import TicketmasterService from '../../services/TicketmasterService';
-
 import './Landing.css';
 
-const Landing = ({ setSearchResults }) => {
-    const [keyword, setKeyword] = useState('');
+const Landing = ({ keyword, setKeyword, landingSearch }) => {
+    const [zipcode, setZipcode] = useState('');
     const history = useHistory();
-
-    const landingSearch = async () => {
-        const results = await TicketmasterService.simpleSearch(keyword);
-        setSearchResults(results._embedded.events);
-        history.push('/results');
-    }
     
     return (
-        <div className='container'>
+        <div id='landing'>
             <div className='row titles'>
-                <h1 className='col-8 left'>TicketMaestro♫</h1>
-                <h4 className='col-4 right'>find what you're looking for</h4>
+                <h1 className='offset-2 col-6 left'>TicketMaestro♫</h1>
+                <h4 className='col-2 right'>find what you're looking for</h4>
             </div>
             <div className='row content'>
-                <input id='landingSearch' className='col-9' placeholder='search...' value={keyword} onChange={(e) => setKeyword(e.target.value)}></input>
-                <button type='button' className='btn btn-primary offset-1 col-2' onClick={landingSearch}>Search</button>
+                <input 
+                    id='locationInput'
+                    className='offset-2 col-2'
+                    placeholder='Enter zipcode'
+                    value={zipcode} onChange={(e) => setZipcode(e.target.value)}>
+                </input>
+                <input 
+                    id='keywordInput'
+                    className='col-4'
+                    placeholder='Search events, artists, and more...'
+                    value={keyword} onChange={(e) => setKeyword(e.target.value)}>
+                </input>
+                <button 
+                    type='button'
+                    className='btn btn-primary col-2'
+                    onClick={async () => {
+                        try {
+                            await landingSearch(zipcode);
+                            history.push('/results');
+                        } catch {
+                            // error is handled in App.js
+                        }
+                    }}>
+                    Search
+                </button>
             </div>
         </div>
     )

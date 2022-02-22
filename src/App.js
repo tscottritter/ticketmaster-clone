@@ -7,25 +7,35 @@ import {
 import Landing from './components/Landing/Landing';
 import Results from './components/Results/Results';
 
+import TicketmasterService from './services/TicketmasterService';
+
 import './App.css'
 
 const App = () => {
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState({});
+  const [keyword, setKeyword] = useState('');
+
+  const search = async (zipcode = '') => {
+    const eventResults = TicketmasterService.eventSearch(keyword, zipcode);
+    const venueResults = TicketmasterService.venueSearch(keyword);
+    const attractionResults = TicketmasterService.attractionSearch(keyword);
+
+    const finalResults = [await eventResults, await venueResults, await attractionResults];
+
+    setSearchResults({
+      'events': finalResults[0]._embedded?.events ?? [],
+      'venues': finalResults[1]._embedded?.venues ?? [],
+      'attractions': finalResults[2]._embedded?.attractions ?? []
+    });
+  }
 
   return (
-    <div>
       <Router>
-        <div>
-          <main>
-            <Route exact path='/' render={() => <Landing setSearchResults={setSearchResults} history/>} />
-            <Route exact path='/results' render={() => <Results results={searchResults} />} />
+          <main className='container'>
+            <Route exact path='/' render={() => <Landing keyword={keyword} setKeyword={setKeyword} landingSearch={search} />} />
+            <Route exact path='/results' render={() => <Results results={searchResults} keyword={keyword} setKeyword={setKeyword} resultsSearch={search} showError />} />
           </main>
-          <footer>
-            {/* <Route path='/' component={Footer} /> */}
-          </footer>
-        </div>
       </Router>
-    </div>
   )
 };
 
