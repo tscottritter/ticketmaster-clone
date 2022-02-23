@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import EventDetails from '../EventDetails/EventDetails';
 import AttractionDetails from '../AttractionDetails/AttractionDetails';
@@ -11,6 +11,11 @@ import './Results.css';
 const Results = ({ results, keyword, setKeyword, resultsSearch, showError }) => {
     const [modalType, setModalType] = useState('');
     const [modalDetails, setModalDetails] = useState({});
+
+    useEffect(() => {
+        document.getElementById('loadingBtn').hidden = true;
+        document.getElementById('searchBtn').hidden = false;
+    })
 
     const attractionDetails = async (id) => {
         const data = await TicketmasterService.getAttractionDetails(id);
@@ -134,14 +139,27 @@ const Results = ({ results, keyword, setKeyword, resultsSearch, showError }) => 
                             placeholder='Search...'
                             value={keyword} onChange={(e) => setKeyword(e.target.value)}
                             onKeyUp={(e) => {
-                                if (e.key === 'Enter') resultsSearch();
+                                if (e.key === 'Enter') {
+                                    document.getElementById('searchBtn').hidden = true;
+                                    document.getElementById('loadingBtn').hidden = false;
+                                    resultsSearch();
+                                };
                             }}>
                         </input>
                         <button 
+                            id='searchBtn'
                             type='button'
                             className='btn btn-primary'
-                            onClick={() => resultsSearch()}>
+                            onClick={() => {
+                                document.getElementById('searchBtn').hidden = true;
+                                document.getElementById('loadingBtn').hidden = false;
+                                resultsSearch();
+                                }}>
                                 Search
+                        </button>
+                        <button id='loadingBtn' className='btn btn-primary' type='button' disabled>
+                            <span className='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span>
+                            Loading...
                         </button>
                     </div>
                 </div>

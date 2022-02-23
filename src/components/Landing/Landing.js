@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import './Landing.css';
@@ -6,6 +6,8 @@ import './Landing.css';
 const Landing = ({ keyword, setKeyword, landingSearch }) => {
     const [zipcode, setZipcode] = useState('');
     const history = useHistory();
+
+    useEffect(() => document.getElementById('loadingBtn').hidden = true)
     
     return (
         <div id='landing'>
@@ -26,7 +28,8 @@ const Landing = ({ keyword, setKeyword, landingSearch }) => {
                     placeholder='Search events, artists, and more...'
                     value={keyword} onChange={(e) => setKeyword(e.target.value)} onKeyUp={async (e) => {
                         if (e.key !== 'Enter') return;
-                        
+                        document.getElementById('searchBtn').hidden = true;
+                        document.getElementById('loadingBtn').hidden = false;
                         try {
                             await landingSearch(zipcode);
                             history.push('/results');
@@ -37,8 +40,11 @@ const Landing = ({ keyword, setKeyword, landingSearch }) => {
                 </input>
                 <button 
                     type='button'
+                    id='searchBtn'
                     className='btn btn-primary col-md-2 col-sm-3'
                     onClick={async () => {
+                        document.getElementById('searchBtn').hidden = true;
+                        document.getElementById('loadingBtn').hidden = false;
                         try {
                             await landingSearch(zipcode);
                             history.push('/results');
@@ -47,6 +53,10 @@ const Landing = ({ keyword, setKeyword, landingSearch }) => {
                         }
                     }}>
                     Search
+                </button>
+                <button id='loadingBtn' className='btn btn-primary' type='button' disabled>
+                    <span className='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span>
+                    Loading...
                 </button>
             </div>
         </div>
