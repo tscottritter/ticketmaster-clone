@@ -57,7 +57,7 @@ const Landing = ({ keyword, setKeyword, landingSearch }) => {
         >
           Search
         </button>
-        <LoadingButton />
+        <LoadingButton classes="col-md-2 col-sm-3" />
       </div>
     </div>
   );
