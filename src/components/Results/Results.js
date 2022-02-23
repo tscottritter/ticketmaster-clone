@@ -68,7 +68,12 @@ const Results = ({ results, keyword, setKeyword, resultsSearch }) => {
 
   return (
     <div id="results">
-      <Nav results={results} keyword={keyword} setKeyword={setKeyword} handleSearch={handleSearch} />
+      <Nav
+        results={results}
+        keyword={keyword}
+        setKeyword={setKeyword}
+        handleSearch={handleSearch}
+      />
       <div className="tab-content" id="nav-tabContent">
         <div
           className="tab-pane fade show active"
