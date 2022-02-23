@@ -1,3 +1,5 @@
+const fetch = require('fetch-retry')(window.fetch);
+
 const TicketmasterService = {
     async eventSearch(keyword, zipcode) {
         try {
