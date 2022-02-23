@@ -6,7 +6,7 @@ import Event from "../Event/Event";
 import EventDetails from "../EventDetails/EventDetails";
 import Venue from "../Venue/Venue";
 import VenueDetails from "../VenueDetails/VenueDetails";
-import LoadingButton from "../LoadingButton/LoadingButton";
+import Nav from "../Nav/Nav";
 
 import TicketmasterService from "../../services/TicketmasterService";
 
@@ -68,69 +68,7 @@ const Results = ({ results, keyword, setKeyword, resultsSearch }) => {
 
   return (
     <div id="results">
-      <nav>
-        <div className="nav nav-pills" id="nav-tab" role="tablist">
-          <button
-            className="nav-link active"
-            id="events-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#events"
-            type="button"
-            role="tab"
-            aria-controls="events"
-            aria-selected="true"
-          >
-            Events ({results.events.length}
-            {results.events.length === 100 ? "+" : ""})
-          </button>
-          <button
-            className="nav-link"
-            id="attractions-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#attractions"
-            type="button"
-            role="tab"
-            aria-controls="attractions"
-            aria-selected="false"
-          >
-            Artists/Teams ({results.attractions.length}
-            {results.attractions.length === 100 ? "+" : ""})
-          </button>
-          <button
-            className="nav-link"
-            id="venues-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#venues"
-            type="button"
-            role="tab"
-            aria-controls="venues"
-            aria-selected="false"
-          >
-            Venues ({results.venues.length}
-            {results.venues.length === 100 ? "+" : ""})
-          </button>
-          <div className="results-search">
-            <input
-              id="keywordInput"
-              placeholder="Search..."
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              onKeyUp={(e) => {
-                if (e.key === "Enter") handleSearch();
-              }}
-            ></input>
-            <button
-              id="searchBtn"
-              type="button"
-              className="btn btn-primary"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-            <LoadingButton />
-          </div>
-        </div>
-      </nav>
+      <Nav results={results} keyword={keyword} setKeyword={setKeyword} handleSearch={handleSearch} />
       <div className="tab-content" id="nav-tabContent">
         <div
           className="tab-pane fade show active"
