@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import LoadingButton from '../LoadingButton/LoadingButton';
+
 import './Landing.css';
 
 const Landing = ({ keyword, setKeyword, landingSearch }) => {
@@ -51,10 +53,7 @@ const Landing = ({ keyword, setKeyword, landingSearch }) => {
                     onClick={handleSearch}>
                     Search
                 </button>
-                <button id='loadingBtn' className='btn btn-primary' type='button' disabled>
-                    <span className='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span>
-                    Searching...
-                </button>
+                <LoadingButton />
             </div>
         </div>
     )

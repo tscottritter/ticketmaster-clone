@@ -6,6 +6,7 @@ import Event from '../Event/Event';
 import EventDetails from '../EventDetails/EventDetails';
 import Venue from '../Venue/Venue';
 import VenueDetails from '../VenueDetails/VenueDetails';
+import LoadingButton from '../LoadingButton/LoadingButton';
 
 import TicketmasterService from '../../services/TicketmasterService';
 
@@ -112,10 +113,7 @@ const Results = ({ results, keyword, setKeyword, resultsSearch }) => {
                             onClick={handleSearch}>
                                 Search
                         </button>
-                        <button id='loadingBtn' className='btn btn-primary' type='button' disabled>
-                            <span className='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span>
-                            Searching...
-                        </button>
+                        <LoadingButton />
                     </div>
                 </div>
             </nav>
