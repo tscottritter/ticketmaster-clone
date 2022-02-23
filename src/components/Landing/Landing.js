@@ -7,7 +7,19 @@ const Landing = ({ keyword, setKeyword, landingSearch }) => {
     const [zipcode, setZipcode] = useState('');
     const history = useHistory();
 
-    useEffect(() => document.getElementById('loadingBtn').hidden = true)
+    useEffect(() => document.getElementById('loadingBtn').hidden = true);
+
+    const handleSearch = async () => {
+        document.getElementById('searchBtn').hidden = true;
+        document.getElementById('loadingBtn').hidden = false;
+
+        try {
+            await landingSearch(zipcode);
+            history.push('/results');
+        } catch {
+            // error is handled in App.js
+        }
+    }
     
     return (
         <div id='landing'>
@@ -26,37 +38,22 @@ const Landing = ({ keyword, setKeyword, landingSearch }) => {
                     id='keywordInput'
                     className='col-md-4 col-sm-6'
                     placeholder='Search events, artists, and more...'
-                    value={keyword} onChange={(e) => setKeyword(e.target.value)} onKeyUp={async (e) => {
-                        if (e.key !== 'Enter') return;
-                        document.getElementById('searchBtn').hidden = true;
-                        document.getElementById('loadingBtn').hidden = false;
-                        try {
-                            await landingSearch(zipcode);
-                            history.push('/results');
-                        } catch {
-                            // error is handled in App.js
-                        }
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    onKeyUp={(e) => {
+                        if (e.key === 'Enter') handleSearch();
                     }}>
                 </input>
                 <button 
                     type='button'
                     id='searchBtn'
                     className='btn btn-primary col-md-2 col-sm-3'
-                    onClick={async () => {
-                        document.getElementById('searchBtn').hidden = true;
-                        document.getElementById('loadingBtn').hidden = false;
-                        try {
-                            await landingSearch(zipcode);
-                            history.push('/results');
-                        } catch {
-                            // error is handled in App.js
-                        }
-                    }}>
+                    onClick={handleSearch}>
                     Search
                 </button>
                 <button id='loadingBtn' className='btn btn-primary' type='button' disabled>
                     <span className='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span>
-                    Loading...
+                    Searching...
                 </button>
             </div>
         </div>

@@ -33,7 +33,7 @@ const App = () => {
       <Router>
           <main className='container'>
             <Route exact path='/' render={() => <Landing keyword={keyword} setKeyword={setKeyword} landingSearch={search} />} />
-            <Route exact path='/results' render={() => <Results results={searchResults} keyword={keyword} setKeyword={setKeyword} resultsSearch={search} showError />} />
+            <Route exact path='/results' render={() => <Results results={searchResults} keyword={keyword} setKeyword={setKeyword} resultsSearch={search} />} />
           </main>
       </Router>
   )
