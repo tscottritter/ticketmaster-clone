@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import EventDetails from '../EventDetails/EventDetails';
+import Attraction from '../Attraction/Attraction';
 import AttractionDetails from '../AttractionDetails/AttractionDetails';
+import Event from '../Event/Event';
+import EventDetails from '../EventDetails/EventDetails';
+import Venue from '../Venue/Venue';
 import VenueDetails from '../VenueDetails/VenueDetails';
 
 import TicketmasterService from '../../services/TicketmasterService';
@@ -46,62 +49,15 @@ const Results = ({ results, keyword, setKeyword, resultsSearch }) => {
     }
 
     const attractions = results.attractions.map((attraction, i) => (
-        <div className='card' key={i}>
-            <img src={attraction.images.find(img => img.ratio === '16_9' && img.width > 500).url} className='card-img-top' alt={attraction.name} />
-            <div className='card-body'>
-                <h5 className='card-title'>{attraction.name}</h5>
-                <p className='card-text'>{attraction.classifications.find(item => item.primary).genre.name}</p>
-            </div>
-            <div className='card-footer'>
-                <button type='button'
-                    className='btn btn-primary'
-                    data-bs-toggle='modal'
-                    data-bs-target='#detailsModal'
-                    onClick={async (e) => {
-                        await attractionDetails(attraction.id)
-                    }}>
-                        See Details
-                </button>
-            </div>
-        </div>
+        <Attraction key={i} attraction={attraction} attractionDetails={attractionDetails} />
     ));
 
     const events = results.events.map((event, i) => (
-        <div className='card'key={i}>
-            <img src={event.images.find(img => img.ratio === '16_9' && img.width > 500).url} className='card-img-top' alt={event.name} />
-            <div className='card-body'>
-                <h5 className='card-title'>{event.name}</h5>
-                <p className='card-text'>{new Date(event.dates.start.localDate).toLocaleDateString()}{event._embedded ? ` at ${event._embedded.venues[0].name}` : ''}</p>
-            </div>
-            <div className='card-footer'>
-                <button type='button'
-                    className='btn btn-primary'
-                    data-bs-toggle='modal'
-                    data-bs-target='#detailsModal'
-                    onClick={async (e) => {
-                        await eventDetails(event.id)
-                    }}>See Details</button>
-            </div>
-        </div>
+        <Event key={i} event={event} eventDetails={eventDetails} />
     ));
 
     const venues = results.venues.map((venue, i) => (
-        <div className='card' key={i}>
-            <img src='./location.png' className='card-img-top' alt=''/>
-            <div className='card-body'>
-                <h5 className='card-title'>{venue.name}</h5>
-                <p className='card-text'>{venue.city?.name}{`${venue.state ? ', ' + venue.state.name : '' }`}{venue.country && venue.country.name === 'United States Of America' ? '' : ', ' + venue.country.name}</p>
-            </div>
-            <div className='card-footer'>
-                <button type='button'
-                className='btn btn-primary'
-                data-bs-toggle='modal'
-                data-bs-target='#detailsModal'
-                onClick={async (e) => {
-                    await venueDetails(venue.id)
-                }}>See Details</button>
-            </div>
-        </div>
+        <Venue key={i} venue={venue} venueDetails={venueDetails} />
     ));
 
     return (
